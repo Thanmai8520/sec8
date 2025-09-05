@@ -5,3 +5,8 @@ npm config set strict-ssl false
 
 npm config list
 curl -I https://registry.npmjs.org
+
+sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
+sudo xcodebuild -license
+xcode-select --install
+xcode-select -p
