@@ -14,3 +14,7 @@ xcode-select -p
 
 export DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer
 export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
+
+echo 'export DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer' >> ~/.zshrc
+echo 'export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES' >> ~/.zshrc
+source ~/.zshrc
