@@ -10,3 +10,7 @@ sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
 sudo xcodebuild -license
 xcode-select --install
 xcode-select -p
+
+
+export DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer
+export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
