@@ -18,3 +18,7 @@ export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 echo 'export DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer' >> ~/.zshrc
 echo 'export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES' >> ~/.zshrc
 source ~/.zshrc
+
+
+Hi Sumanta,
+I was referred to you by Sai Krishna regarding creating a DevOps strategy for our Lambda functions to flow from GitLab to AWS. I’d like to discuss the current approach and understand what’s going on with it. Please let me know a convenient time to connect.
