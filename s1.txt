@@ -22,3 +22,6 @@ source ~/.zshrc
 
 Hi Sumanta,
 I was referred to you by Sai Krishna regarding creating a DevOps strategy for our Lambda functions to flow from GitLab to AWS. I’d like to discuss the current approach and understand what’s going on with it. Please let me know a convenient time to connect.
+
+
+Just to clarify our flow — after the code is committed to GitLab, do we have a CI/CD pipeline that publishes artifacts to Nexus? And from Nexus, is there another pipeline that uploads them to S3 for Lambda deployments?
