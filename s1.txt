@@ -25,3 +25,51 @@ I was referred to you by Sai Krishna regarding creating a DevOps strategy for ou
 
 
 Just to clarify our flow — after the code is committed to GitLab, do we have a CI/CD pipeline that publishes artifacts to Nexus? And from Nexus, is there another pipeline that uploads them to S3 for Lambda deployments?
+
+
+import boto3
+import base64
+import json
+import os
+from datetime import datetime
+
+# Kinesis client
+kinesis = boto3.client("kinesis")
+
+# Destination stream from environment variable
+CTA_EVENT_STREAM = os.environ["CTA_EVENT_STREAM"]
+
+def lambda_handler(event, context):
+    records_to_put = []
+
+    for record in event["Records"]:
+        # Decode the incoming TT event
+        payload = base64.b64decode(record["kinesis"]["data"]).decode("utf-8")
+        event_data = json.loads(payload)
+
+        # --- Apply CTA Rule Processing (example rule) ---
+        cta_event = {
+            "ttEventId": event_data.get("id"),
+            "status": "CTA_READY" if event_data.get("priority") == "HIGH" else "CTA_PENDING",
+            "timestamp": datetime.utcnow().isoformat(),
+            "originalEvent": event_data
+        }
+
+        # Prepare record for CTA event stream
+        records_to_put.append({
+            "Data": json.dumps(cta_event).encode("utf-8"),
+            "PartitionKey": record["kinesis"]["partitionKey"]
+        })
+
+    # Push batch to CTA event stream
+    if records_to_put:
+        response = kinesis.put_records(
+            StreamName=CTA_EVENT_STREAM,
+            Records=records_to_put
+        )
+        print("PutRecords response:", response)
+
+    return {
+        "statusCode": 200,
+        "body": f"Processed {len(records_to_put)} TT events into CTA events"
+    }
