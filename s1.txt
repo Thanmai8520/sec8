@@ -1,3 +1,53 @@
+
+
+AWS Lambda: bbkyc-tms-token-manager
+
+🔹 Purpose
+
+Manages the TMS token lifecycle —
+fetches, validates, and updates the token used by downstream services (like bbkyc-sf-case-creator).
+
+⸻
+
+🔹 Trigger
+	•	Source: AWS EventBridge
+	•	Rule Name: bbkyc-tms-scheduler
+	•	Schedule: Every 55 minutes
+	•	Active Window: Between 12 AM and 3 AM (processor days)
+
+⸻
+
+🔹 Execution Flow
+
+1️⃣ Trigger
+
+AWS EventBridge invokes the Lambda (bbkyc-tms-token-manager) every 55 minutes.
+
+2️⃣ Token Fetch & Validation
+	•	The Lambda fetches the current TMS token from:
+	•	AWS Secrets Manager
+	•	Secret Name: bbkyc-tms-token
+
+3️⃣ Validate Token
+	•	Calls Border Control API endpoint (external REST API)
+	•	Purpose: Check if the stored TMS token is still valid.
+	•	API Example: https://bordercontrol.example.com/validate
+	•	If token is valid → end process (no change).
+	•	If token is invalid / expired → immediately fetch a new token.
+
+4️⃣ Fetch New Token
+	•	Calls another Border Control API endpoint:
+	•	API Example: https://bordercontrol.example.com/token
+	•	Uses credentials or payload (e.g., username/password or API key)
+	•	Receives a new TMS token in API response.
+
+5️⃣ Update Token in Secrets Manager
+	•	Overwrites the old secret with new JSON:
+
+
+
+
+
 npm config set proxy http://primary-proxy.gslb.intranet.barcapint.com:8080
 npm config set https-proxy http://primary-proxy.gslb.intranet.barcapint.com:8080
 npm config set strict-ssl false
