@@ -1,4 +1,27 @@
-
+PROJECT1
+│
+├── bb-pkyc-ttbdpprocessor
+│   ├── .venv
+│   ├── bdp-consumer-lambda
+│   ├── case-creation-lambda
+│   ├── cft
+│   │   ├── app-iam-roles
+│   │   ├── dynamo-dbs
+│   │   ├── kinesis-streams
+│   │   ├── lambdas
+│   │   ├── s3-buckets
+│   │   ├── sqs
+│   │   ├── iam-roles.yaml
+│   │   └── sample-cft.yaml
+│   │
+│   ├── cta-rules-lambda
+│   ├── shared
+│   ├── .gitignore
+│   ├── bbkyc-cta-rule-lambda.zip
+│   ├── metadata.yaml
+│   ├── product.template.yaml
+│   ├── README.md
+│   └── setup.sh
 
 AWS Lambda: bbkyc-tms-token-manager
 
