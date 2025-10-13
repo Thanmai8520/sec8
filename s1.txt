@@ -1,3 +1,44 @@
+Creating custom metrics in Cloud Watch for AWS Lambda
+CloudWatch Dashboard Setup
+	•	Access CloudWatch → Dashboard section to create custom dashboards
+	•	Current available metrics viewable under “All metrics” → shows all services generating metrics
+	•	Lambda functions (starting with “kyc”) available for monitoring
+	◦	Built-in AWS metrics show invocations, duration, errors
+	◦	Infra metrics generated automatically by AWS
+	◦	Limited insight into application-level success/failure rates
+Custom Metrics Strategy
+	•	Built-in invocation metrics insufficient for detailed success/failure tracking
+	•	Need custom application metrics for granular monitoring:
+	1	S3 record count - track files read successfully
+	2	TT event publish successful - count successful event publications
+	3	TT publish failed - track publication failures
+	4	Salesforce case creation success/failure rates
+	•	Publish custom metrics from Lambda code at key processing points
+	•	Enables precise tracking without complex log parsing
+Dashboard Widget Configuration
+	•	Statistics selection critical: sum, maximum, minimum, average, percentile
+	◦	Duration metrics: use max/min/percentile for performance analysis
+	◦	Count metrics: use sum for totals
+	•	Time range selection affects data granularity
+	•	Widget types: metric widgets for numbers, log widgets for error details
+Error Logging Requirements
+	•	Standardize error message format across all Lambda functions
+	•	Required error log structure:
+	◦	Log level: ERROR (for filtering)
+	◦	Transaction/Correlation ID
+	◦	Error message
+	◦	Error code (if available)
+	•	All team members must align on consistent logging format
+	•	Enables log widget queries to display specific failure details
+Next Steps
+	•	Thanmai: Create documentation by tomorrow showing implementation plan
+	◦	Detail where changes needed across system
+	◦	Specify custom metrics to implement
+	◦	Define error logging format
+	•	11:00am tomorrow: Review documentation and finalize approach
+	•	Begin development after plan approval
+
+
 Dashboard should have: tally up the info how many publish as an event, how many cases sucess for tt events, failure for reason, 
 1. S3 how many
 2. Sales forces cases how many -failed and pass metrics
