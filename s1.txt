@@ -1,3 +1,8 @@
+Dashboard should have: tally up the info how many publish as an event, how many cases sucess for tt events, failure for reason, 
+1. S3 how many
+2. Sales forces cases how many -failed and pass metrics
+
+
 aws lambda update-function-code \
 --function-name bbkyc-tms-token-manager-dev-lambda \
 --s3-bucket bbkyc-lambda-code-dev-bucket \
