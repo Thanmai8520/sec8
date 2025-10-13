@@ -1,4 +1,16 @@
+aws lambda update-function-code \
+--function-name bbkyc-tms-token-manager-dev-lambda \
+--s3-bucket bbkyc-lambda-code-dev-bucket \
+--s3-key bbkyc-tms-token-manager-lambda-new.zip \
+--region eu-west-2
 
+aws lambda invoke \
+--function-name bbkyc-tms-token-manager-dev-lambda \
+--payload '{}' \
+--region eu-west-2 \
+response.json
+
+cat response.json
 PKYC-INFRA/
 │
 ├── app-iam-roles/
