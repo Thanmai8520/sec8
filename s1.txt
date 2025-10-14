@@ -1,3 +1,43 @@
+My update of dashbaord
+Dashboard Strategy Review
+	•	Presented strategy document in Confluence with 5 proposed metrics
+	•	New metric: “history records process” under PKYC namespace
+	•	Namespace concept explained as container/boundary for metrics
+	◦	Similar to surname - prevents naming conflicts
+	◦	Same metric name allowed under different namespaces
+	◦	Error occurs if duplicate metric created in same namespace
+Proposed Metrics & Implementation
+	•	5 custom metrics to be generated from code (not available from existing infra)
+	•	Dashboard layout discussion:
+	◦	Overview section: invocation, success rate, error rate for all lambdas combined
+	◦	Concern about visual clutter with multiple lambda lines
+	◦	Need R&D to determine optimal approach (metrics vs logs)
+	•	Design principle: Dashboard for non-technical users
+	◦	Should show overall application health at a glance
+	◦	Focus on processed records vs cases created for health check
+	◦	Error tracking and tallying differences
+Technical Guidance
+	•	Start building dashboard infrastructure without interfering with code
+	•	Can implement infra components now
+	•	Hold off on creating custom metrics until after show and tell
+	•	Consider user perspective: non-technical stakeholders need simple health overview
+	•	Iterate and refine based on feedback
+Scheduler Configuration
+	•	Current setup: 55-minute self-triggering lambda with cron for date control
+	•	Triggers only on 13th of each month, stops on 14th
+	•	For demo: Change to 5-minute intervals for show and tell
+	•	Make configuration change on day 14, then revert after demo
+Next Steps
+	•	Begin dashboard development (infrastructure components)
+	•	Research optimal display method for multi-lambda metrics
+	•	Configure scheduler for 5-minute demo intervals
+	•	Wait for approval before creating custom metrics
+	•	Prepare for iterative refinement process
+
+
+
+
+
 Creating custom metrics in Cloud Watch for AWS Lambda
 CloudWatch Dashboard Setup
 	•	Access CloudWatch → Dashboard section to create custom dashboards
