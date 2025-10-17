@@ -1,3 +1,21 @@
+dashboard/
+├── bbkyc-s3-processor/
+│   ├── lambda_handler.py
+│   ├── bbkyc-s3-processor.zip
+│   └── ...
+│
+├── bbkyc-salesforce-handler/
+│   ├── lambda_handler.py
+│   ├── bbkyc-sf-handler.zip
+│   └── ...
+│
+└── bbkyc-tt-event/
+    ├── lambda_handler.py
+    ├── bbkyc-tt-event.zip
+    └── ...
+
+
+
 My update of dashbaord
 Dashboard Strategy Review
 	•	Presented strategy document in Confluence with 5 proposed metrics
