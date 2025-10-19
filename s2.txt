@@ -1,1 +1,34 @@
+Custom metrics implementation for TT events
+CloudWatch Metrics Implementation Requirements
+	•	Five custom metrics needed across two Lambda functions:
+	◦	TT Producer Lambda: S3 records received count, TT events published successfully, TT events failed to publish
+	◦	Case Creation Lambda: SF case creation success, SF case creation failure
+	•	Must implement from code itself, not console
+	◦	Console-created metrics won’t show actual data flow
+	◦	Custom CloudWatch metrics provide real-time success/failure tracking
+Current Metrics Issues
+	•	Existing AWS metrics insufficient for monitoring:
+	◦	“Number of objects” shows file count, not record count within files
+	◦	“Invocations” shows Lambda execution count, not individual event processing
+	◦	Example: 1 file with 100 records = 1 invocation but 100 events to track
+	•	Need code-level metrics to capture granular success/failure data
+Implementation Process
+	•	Code changes required in both Lambda functions:
+	◦	Pull latest code from SAI’s recent structural changes
+	◦	Create separate branch from base setup to avoid overriding working code
+	◦	Implement custom CloudWatch metrics within Lambda code
+	•	Deployment considerations:
+	◦	Keep backup of current zip files
+	◦	Update product template YAML if zip names change
+	◦	Stack won’t update, only underlying code changes
+Verification & Testing
+	•	Metrics automatically appear in CloudWatch after code deployment
+	•	Check “All Metrics” → “pkyc/Salesforce” namespace for custom metrics
+	•	Successful implementation shows graph representation with peaks/valleys
+	•	Test with file upload: 5 records should generate 5 case creation success metrics
+Next Steps
+	•	Pull latest code and create new branch
+	•	Implement custom metrics in both Lambda functions
+	•	Deploy changes and verify metrics appear in CloudWatch dashboard
+	•	Test with sample file upload to confirm tracking accuracy
 
