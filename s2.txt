@@ -1,3 +1,27 @@
+tms_token_manager/
+│
+├── main/
+│   ├── helpers/
+│   │   ├── __init__.py
+│   │   ├── audit_helper.py       # if applicable
+│   │   ├── kinesis_helper.py     # if applicable
+│   │   ├── utils.py              # shared functions or secrets logic
+│   ├── __init__.py
+│   └── lambda_handler.py         # entry Lambda file
+│
+├── test/
+│   ├── helpers/
+│   │   ├── __init__.py
+│   │   ├── utils.py              # mock/test utilities
+│   ├── __init__.py
+│   └── lambda_handler.py         # for testing only (unit test or mocks)
+│
+├── requirements.txt
+├── template.yaml
+├── env-vars.json
+├── response.json
+└── README.md
+
 Custom metrics implementation for TT events
 CloudWatch Metrics Implementation Requirements
 	•	Five custom metrics needed across two Lambda functions:
