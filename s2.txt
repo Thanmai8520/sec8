@@ -1,3 +1,35 @@
+Monitoring dashboard setup for AWS Lambda metrics
+AWS CloudWatch Dashboard Setup
+	•	Lambda trigger process explanation
+	◦	Upload JSON file to S3 → Lambda triggers → Metrics generated → Pushed to internal metric store
+	◦	Monitoring dashboard reads metric points independently of alarm triggers
+	◦	Statistical analysis options: average, summation, P99 percentile calculations
+	•	Widget configuration walkthrough
+	◦	Add multiple metrics to same widget via plus button → Browse → AWS Lambda namespace
+	◦	Search by function name or resource name
+	◦	Graph matrices tab shows multiple values
+	◦	Rename widget labels for clarity (AWS generates random unique names)
+Error Handling Strategy
+	•	Two approaches for Lambda error tracking
+	1	Code fails → Lambda fails → Error propagates to top (captured by AWS Lambda error matrix)
+	2	Handle errors in code → Lambda never fails → Generate custom error matrices from code
+	•	Review existing producer Lambda error handling
+	◦	Determine if failures are captured at Lambda error matrix level
+	◦	Decide between infrastructure-level vs application-level error tracking
+	•	Widget naming: Use descriptive titles like “TT Publish failure” instead of AWS defaults
+Dashboard Enhancement Requirements
+	•	Add text sections describing what matrices mean
+	◦	Business users need context without technical knowledge
+	◦	Make dashboard self-explanatory for non-developers
+	•	Uncheck sparkline option to reduce visual clutter (Edit → Options tab)
+	•	Current data shows only single record processing - need more data for proper testing
+Next Steps
+	•	Ria: Resolve WiFi issues, complete scenario generation
+	•	Review and update error handling in producer Lambda
+	•	Beautify dashboard with descriptive text sections
+	•	Follow up after implementation for CFD review of monitoring dashboard
+
+
 git filter-branch --force --index-filter "git rm -r --cached --ignore-unmatch venv" --prune-empty --tag-name-filter cat -- --all
 
 
