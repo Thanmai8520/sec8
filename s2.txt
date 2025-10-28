@@ -1,3 +1,36 @@
+#
+Metric Name
+What It Tracks
+Where It’s Published (Lambda)
+Purpose
+1
+S3 Record Count
+Number of files/records successfully read from the S3 bucket (bbkyc-tc-bdp-bucket or similar)
+Lambda: bbkyc-tc-event-producer (after reading from S3)
+Helps verify that input data ingestion is working and how many records are processed per trigger.
+2
+TT Event Publish Success
+Count of successful “TT events” pushed into Kinesis Data Stream (bbkyc-tt-event-stream)
+Lambda: bbkyc-tt-event-producer
+Confirms that event generation and publishing to the stream are functioning as expected.
+3
+TT Event Publish Failure
+Count of failures when publishing TT events to Kinesis
+Same Lambda: bbkyc-tt-event-producer (inside catch/error block)
+Helps identify reliability issues or connectivity errors with the event stream.
+4
+Salesforce Case Creation Success
+Number of successfully created Salesforce cases (via REST API call)
+Lambda: bbkyc-tf-case-creator
+Tracks successful case creation in Salesforce — validates downstream integration.
+5
+Salesforce Case Creation Failure
+Number of failed Salesforce case creations
+Lambda: bbkyc-tf-case-creator (error handling block)
+Detects external API errors, token issues, or invalid data causing failures.
+
+
+
 Monitoring dashboard setup for AWS Lambda metrics
 AWS CloudWatch Dashboard Setup
 	•	Lambda trigger process explanation
