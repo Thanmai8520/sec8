@@ -1,3 +1,33 @@
+BBKYC-AUDIT-DATA-PROCESSOR/
+│
+├── event/
+│   └── input.json
+│
+├── src/
+│   └── main/
+│       ├── __init__.py
+│       │
+│       ├── common/
+│       │   ├── __init__.py
+│       │   ├── common_aws.py
+│       │   └── common.py
+│       │
+│       ├── helper/
+│       │   ├── __init__.py
+│       │   ├── audit.py
+│       │   └── statusHistory.py
+│       │
+│       ├── app.py
+│       └── test/
+│           └── test_app.py
+│
+├── metadata.yaml
+├── product.template.yaml
+├── README.md
+├── requirements.txt
+├── sample-data2.json
+└── setup.sh
+
 Producer lambda changes for parallelization
 Shard Distribution Issue
 	•	All events going to single shard (Shard 16) despite multiple shards available (7, 11, 14, 16, 17)
