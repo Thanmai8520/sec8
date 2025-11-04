@@ -1,3 +1,36 @@
+Producer lambda changes for parallelization
+Shard Distribution Issue
+	•	All events going to single shard (Shard 16) despite multiple shards available (7, 11, 14, 16, 17)
+	•	Parallelization not taking effect due to poor distribution
+	•	Root cause: partition key implementation in producer lambda needs modification
+Required Code Changes
+	•	Update partition key in BDP Consumer Lambda (rename from “BDP Producer”)
+	◦	Change to: existing string + transaction ID
+	◦	Generates new partition key for each transaction
+	•	Convert remaining printf statements to logger statements
+	◦	Code review needed but will be handled separately by Ria
+	•	Focus only on partition key changes for now
+Deployment Process
+	•	Make changes in feature branch without merging initially
+	•	Package and deploy lambda to sandbox environment first
+	•	Test functionality before proceeding with merge
+	•	After deployment confirmed working:
+	1	Take pull from base setup branch
+	2	Resolve any merge conflicts carefully
+	3	Raise PR/MR request
+Technical Issues
+	•	Screen glitching problems affecting both participants
+	◦	Similar issue experienced for 6-7 days previously
+	◦	Suspected hardware/heat issues with Mac machines
+	•	Display problems may impact development timeline
+Next Steps
+	•	Immediate: Make partition key changes and deploy to sandbox
+	•	Priority: Enable 50,000 record processing capability
+	•	Later: Complete branch merging and conflict resolution after initial deployment confirmed working
+
+
+
+
 #
 Metric Name
 What It Tracks
