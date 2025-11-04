@@ -28,7 +28,7 @@ Next Steps
 	•	Priority: Enable 50,000 record processing capability
 	•	Later: Complete branch merging and conflict resolution after initial deployment confirmed working
 
-
+Partitionkey unique key with transaction id force it to publish to new shard so data will distribute all along
 
 
 #
