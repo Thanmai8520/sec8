@@ -1,3 +1,7 @@
+I checked the DynamoDB table — the events are getting logged correctly.
+I can see multiple records with status = PROCESSED, while a few show status = FAILED with the reason “API call failed…”.
+So the Lambdas are processing events, and their statuses are updating properly in the DB.
+
 BBKYC-AUDIT-DATA-PROCESSOR/
 │
 ├── event/
