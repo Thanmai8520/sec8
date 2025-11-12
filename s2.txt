@@ -1,3 +1,8 @@
+git fetch origin
+git checkout feature/custom-cloudwatch-metrics
+git pull origin feature/custom-cloudwatch-metrics
+git merge --no-commit --no-ff origin/base-setup
+
 I checked the DynamoDB table — the events are getting logged correctly.
 I can see multiple records with status = PROCESSED, while a few show status = FAILED with the reason “API call failed…”.
 So the Lambdas are processing events, and their statuses are updating properly in the DB.
