@@ -1,3 +1,87 @@
+
+The purpose of this dashboard is to monitor and visualize the performance and reliability of our BBKYC data processing workflow.
+It helps us understand how effectively our Lambda functions are processing data, publishing to downstream systems, and creating Salesforce cases.”
+
+⸻
+
+🧩 2. Give a Brief Architecture Context
+
+“Our workflow starts from S3 and EventBridge triggers, and then several Lambda functions handle event publishing, Salesforce case creation, and auditing.
+Each Lambda function pushes success/failure metrics to CloudWatch, and those metrics are aggregated here in the dashboard.”
+
+(If needed, show the architecture diagram you shared earlier to link where each metric comes from.)
+
+⸻
+
+📊 3. Explain Each Metric Tile Clearly
+
+🟢 S3RecordsProcessed (6)
+
+“This shows the number of records successfully read from the S3 bucket by the Glue job and processed downstream.
+It helps ensure the data ingestion layer is functioning.”
+
+⸻
+
+🟢 TTPublishSuccess (25)
+
+“This represents the successful transmissions from the Lambda (bbkyc-tt-event-producer) to the TMS system via the Kinesis stream.
+It indicates that events are being published and consumed correctly.”
+
+⸻
+
+🔴 TTPublishFailure (–)
+
+“We haven’t seen any publish failures in this period, which means no event drop occurred.
+If this value rises, it could indicate a downstream service issue or timeout.”
+
+⸻
+
+🟢 SFCaseCreationSuccess (37)
+
+“This metric is from the Salesforce case creation Lambda (bbkyc-sf-case-creator).
+It tracks the number of cases successfully created in Salesforce after the TMS token validation and event processing.”
+
+⸻
+
+⚫ SFCaseCreationFailure (0)
+
+“Currently, there are no failures reported in Salesforce case creation.
+This shows that our integration is stable and tokens are being refreshed properly.”
+
+⸻
+
+🕒 4. Time Range Controls
+
+“The dashboard allows switching between different time frames — like 1 hour, 3 hours, 1 day, etc.
+This helps us perform both real-time and historical trend analysis.”
+
+⸻
+
+📈 5. Insights / Observations
+
+“From the past day’s metrics:
+
+	•	All Salesforce case creations have succeeded.
+	•	25 TMS events were successfully published.
+	•	No TTPublish or CaseCreation failures, indicating system stability.
+	•	S3 processing is consistent, showing 6 records processed.”
+
+⸻
+
+⚙️ 6. Next Steps / Recommendations
+
+	•	Add alarms for failure metrics (e.g., SFCaseCreationFailure > 0).
+	•	Automate metric reporting into Slack or email.
+	•	Include latency and processing duration metrics to monitor performance efficiency.
+
+⸻
+
+🗣️ 7. Wrap Up
+
+“In summary, this CloudWatch dashboard gives us end-to-end visibility into our BBKYC pipeline health — from data ingestion in S3 to case creation in Salesforce.
+It helps us ensure timely detection of issues and smooth data flow across multiple AWS services.”
+
+
 git fetch origin
 git checkout feature/custom-cloudwatch-metrics
 git pull origin feature/custom-cloudwatch-metrics
