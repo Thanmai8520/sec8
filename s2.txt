@@ -1,3 +1,45 @@
+✅ TIAA Token Lambda – Simple Steps (No Code)
+
+1️⃣ EventBridge triggers your Lambda
+	•	It runs automatically every 55 minutes.
+	•	You don’t schedule anything inside the Python code.
+
+⸻
+
+2️⃣ Lambda sends a request to TIAA to get a new token
+	•	The Lambda calls the TIAA token API.
+	•	TIAA gives back a fresh access token.
+
+⸻
+
+3️⃣ Lambda saves the token into AWS Secrets Manager
+	•	The token is stored in the secret called
+bbkyc-tiaa-token.
+	•	This keeps the token safe and encrypted.
+
+⸻
+
+4️⃣ Lambda updates the token every time it runs
+	•	Every 55 minutes, the old token is replaced with a new one.
+
+⸻
+
+5️⃣ Other Lambdas read the token from Secrets Manager
+	•	When the case-creator or other services need the token,
+they read it from Secrets Manager instead of creating it themselves.
+
+⸻
+
+6️⃣ CloudWatch logs show the status
+	•	You can see in logs whether token fetch was successful.
+
+⸻
+
+⭐ One-line summary for presentation
+
+“Our TIAA Token Lambda refreshes the token every 55 minutes using EventBridge and stores it in Secrets Manager so other Lambdas can use it safely
+
+
 bb-tiaa-token-manager
 └── main
     ├── __init__.py
