@@ -1,3 +1,28 @@
+bb-tiaa-token-manager
+└── main
+    ├── __init__.py
+    ├── lambda_handler.py
+    │
+    ├── helpers
+    │   ├── __init__.py
+    │   ├── api_client.py
+    │   ├── scheduling_helper.py
+    │   ├── secrets_helper.py
+    │   └── utils.py
+    │
+    ├── test
+    │   ├── __init__.py
+    │   ├── lambda_handler.py
+    │   │
+    │   └── helpers
+    │       ├── __init__.py
+    │       └── utils.py
+    │
+    ├── env-vars.json
+    ├── README.md
+    ├── requirements.txt
+    ├── response.json
+    └── update-lambda-stack.sh
 
 Configuring production token management
 Production Configuration Strategy
