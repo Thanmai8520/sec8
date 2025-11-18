@@ -1,4 +1,45 @@
 
+Configuring production token management
+Production Configuration Strategy
+	•	Token URL must be configurable for different environments
+	◦	Sit/UAT/E2E environments use same URL
+	◦	Production requires completely different token endpoint
+	•	Implementation approach: property files for environment-specific values
+	◦	Avoid hardcoding production URLs in code
+	◦	Enable configuration override at deployment time
+Certificate Management Architecture
+	•	Current GPT project packages certificates with code
+	◦	Creates maintenance burden when certificates expire
+	◦	Requires full redeployment for certificate updates
+	•	Proposed solution: AWS Certificate Manager integration
+	◦	Externalize certificates from application code
+	◦	Enable certificate updates without code redeployment
+	◦	Reduce operational complexity for certificate lifecycle
+	•	Certificate requirements for external API calls
+	◦	Need public key for target system authentication
+	◦	Target system validates using private key
+Code Reusability Goals
+	•	Creating reusable product across domains
+	◦	Same codebase for GPT and future 50 KYC projects
+	◦	Configuration-driven deployment approach
+	•	Configurable components identified:
+	◦	Token URL endpoints
+	◦	Certificate paths and keys
+	◦	Username/password via secret manager
+Technical Implementation Details
+	•	Secret manager already handling username/password
+	•	Certificate paths currently read from local directory
+	•	Will transition to AWS Certificate Manager once research complete
+	•	Temporary approach: keep certificates with code until better solution implemented
+Next Steps
+	•	Speaker B: Study provided GPT code to understand current implementation
+	•	Thanmai kora: Research AWS Certificate Manager integration options
+	•	Wednesday: Face-to-face team meeting
+	◦	Include full team + J
+	◦	Explain Certificate Manager approach
+	◦	Discuss TIA token integration details
+
+
 The purpose of this dashboard is to monitor and visualize the performance and reliability of our BBKYC data processing workflow.
 It helps us understand how effectively our Lambda functions are processing data, publishing to downstream systems, and creating Salesforce cases.”
 
