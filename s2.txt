@@ -1,3 +1,41 @@
+bbkyc-tt-event-producer-job
+│
+├── assets
+│
+├── src
+│   └── main
+│       ├── helpers
+│       │   ├── __init__.py
+│       │   ├── audit_helper.py
+│       │   ├── kinesis_helper.py
+│       │   └── utils.py
+│       │
+│       ├── bbkyc_ttdbp_glue_job.py
+│       └── __init__.py
+│
+├── test
+│   ├── helpers
+│   │   ├── __init__.py
+│   │   ├── audit_helper_test.py
+│   │   ├── kinesis_helper_test.py
+│   │   └── utils_test.py
+│   │
+│   ├── bbkyc_ttdbp_glue_job_test.py
+│   └── __init__.py
+│
+├── conftest.py
+├── requirements.txt
+├── .flake8
+├── .gitignore
+├── .gitlab-ci.yml
+├── commands.txt
+├── data-producer.py
+├── pyproject.toml
+├── pytest.ini
+├── README.md
+└── template.yaml
+
+
 Dashboard metrics enhancement for glue job audit
 Dashboard Metrics Implementation
 	•	Current dashboard matrices added partially, need completion for glue job monitoring
