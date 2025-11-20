@@ -1,3 +1,45 @@
+Dashboard metrics enhancement for glue job audit
+Dashboard Metrics Implementation
+	•	Current dashboard matrices added partially, need completion for glue job monitoring
+	•	Required metrics for glue job:
+	1	Read count from iceberg table
+	2	Processed count from read data
+	3	Success count from processed data
+	4	Failure count from processed data
+	•	Additional metrics needed: job run success/failure counts
+	•	Exception handling matrices missing, need to be added for failure conditions
+Dashboard Visualization Requirements
+	•	Need visual appeal beyond just numbers display
+	•	Required chart types:
+	◦	Pie charts for pass/fail/total comparisons
+	◦	Bar graphs for trend analysis
+	◦	Failure graphs for monitoring
+	•	Make data more consumable for large numbers (e.g., 132,516 records with 10,500 passes)
+	•	All widgets must be moved to CFD (currently some manually added)
+Service Priorities
+	•	First priority services (in order):
+	1	Glue job audit Lambda
+	2	Kinesis
+	3	Kinesis SQS
+	4	DynamoDB
+	•	Secondary priority: CTA case creation, TV dashboard bits
+	•	Custom alarms can be added for these five services first
+Code Organization Standards
+	•	Keep metrics code separate from main business logic
+	•	Create utility functions for CloudWatch metrics creation
+	•	Use component name + environment for namespaces (not pkyc/salesforce format)
+	•	Add environment as dimension in metrics
+	•	No commits without verification
+	•	Package only helper folder for glue job, not job script
+Action Items
+	•	Speaker B: Implement missing glue job metrics and exception handling
+	•	Speaker B: Create clean code structure with separate metrics utilities
+	•	Speaker B: Work on dashboard visualization comparisons after metrics completion
+	•	Speaker C: Provide guidance on dashboard visualization approaches after initial exploration
+
+
+
+
 ✅ TIAA Token Lambda – Simple Steps (No Code)
 
 1️⃣ EventBridge triggers your Lambda
