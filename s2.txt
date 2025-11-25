@@ -1,3 +1,8 @@
+
+Glue uses Spark under the hood, and Spark publishes its own metrics.
+CloudWatch marks them as ‘custom’ only because the namespace is non-AWS, but they are AWS-generated and cannot be moved to AWS/Glue.
+Default AWS/Glue metrics are very high level; the detailed metrics exist only in the custom namespace, so we cannot remove them.
+
 Here’s the reason why your Glue job metrics appear under “Custom Namespaces” even though they are AWS-managed 👇
 
 ⸻
