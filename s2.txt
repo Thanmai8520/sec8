@@ -15,7 +15,25 @@ Reusable TIAA token manager
 
 
 (Acume its a tool)
+SC Product – TIAA Token Manager
+	•	AWS Event Scheduler
+	•	Lambda
+	•	IAM Roles: Access
+	•	→ Lambda → CSM
+	•	→ Lambda Event Bridge
+	•	→ Secret
 
+⸻
+
+Configurable Properties
+	•	Prefix / Domain
+	•	Env
+	•	Secret Name
+	•	Cert Path (ACM) / File Path
+	•	Auth Role
+	•	Secret URL
+	•	TIAA Auth URL
+	•	CSM Lambda Name
 
 
 
