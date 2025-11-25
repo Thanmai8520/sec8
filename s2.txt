@@ -1,3 +1,24 @@
+process in breif
+
+step1
+
+fetch Creds foom CSM
+Step2
+Fetch certificate from certs folder
+
+Step③fetch TIAA token inexchage of cert② & cred of (cSM) i.e., step 1
+
+④ Save token inside Secret
+
+Reusable TIAA token manager
+
+
+
+(Acume its a tool)
+
+
+
+
 bbkyc-tt-event-producer-job
 │
 ├── assets
