@@ -1,3 +1,63 @@
+Here’s the reason why your Glue job metrics appear under “Custom Namespaces” even though they are AWS-managed 👇
+
+⸻
+
+✅ Why Glue Metrics Look Like Custom Metrics
+
+AWS Glue publishes two types of metrics into CloudWatch:
+
+1. AWS-Provided Default Glue Metrics
+
+These are automatically created under the namespace:
+Examples:
+	•	Glue.JobRunTime
+	•	Glue.DriverMemory
+	•	Glue.SparkJobs
+	•	Glue.SparkErrors
+
+These are standard AWS metrics.
+
+⸻
+
+2. Spark / JVM / Executor Level Metrics
+
+These come from the Glue driver & executor, such as:
+	•	glue.1.jvm.heap.usage
+	•	glue.driver.system.cpuSystemLoad
+	•	glue.driver.aggregate.numCompletedStages
+	•	glue.driver.filesystem.write_bytes
+	•	glue.driver.aggregate.elapsedTime
+	•	etc.
+
+These metrics come from Spark internal monitoring system used by Glue.
+AWS publishes them to CloudWatch automatically, but they do NOT belong to AWS/Glue namespace.
+
+👉 They are published under a namespace that CloudWatch labels as “Custom”
+…but they are not created by YOU — AWS publishes them.
+
+So CloudWatch calls them “custom” only because the namespace is not AWS/*.
+
+⸻
+
+🧠 Why AWS Glue Puts Spark/JVM Metrics in Custom Namespace
+
+Because:
+
+✔ Spark/Glue job internals ≠ Standard AWS metrics
+
+Glue uses Apache Spark and sends Spark driver/executor metrics using a non-AWS namespace.
+
+✔ AWS/Glue namespace is only for high-level metrics
+
+Detailed metrics (JVM heap, CPU load, tasks, SQL stages, spills, shuffle bytes, etc.) are too specific for standard AWS namespaces.
+
+✔ Glue auto-publishes them, but CloudWatch categorizes by namespace, not source
+
+Anything not starting with AWS/ goes into “Custom Metrics”.
+
+
+
+
 process in breif
 
 step1
