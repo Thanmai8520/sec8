@@ -1,4 +1,217 @@
+FUNCTIONAL DASHBOARD (Business View)
 
+Widget 1 — Total Events Processed Today
+
+Source:
+	•	Lambda: bbkyc-cta-event-producer
+Metric: Custom metric: TotalEvents (if you send) or use Kinesis IncomingRecords
+Namespace: PKYC/Salesforce or default Kinesis
+
+⸻
+
+Widget 2 — Salesforce Case Creation Success / Fail
+
+Source:
+	•	Lambda: bbkyc-cta-case-creator
+Metrics:
+	•	SFCaseCreationSuccess (custom)
+	•	SFCaseCreationFailure (custom)
+Namespace: PKYC/Salesforce
+
+⸻
+
+Widget 3 — End-to-End Latency (Business Latency)
+
+Source:
+	•	Lambda: bbkyc-cta-case-creator
+Metric:
+	•	EndToEndLatency (custom metric you create)
+
+⸻
+
+Widget 4 — Token Refresh Success / Failure
+
+Source:
+	•	Lambda: bbkyc-tlaa-token-manager
+Metrics:
+	•	TokenRefreshSuccess
+	•	TokenRefreshFailure
+(You already log token refresh in CloudWatch; just publish 2 metrics)
+
+⸻
+
+Widget 5 — Audit Summary (Audit Events Written)
+
+Source:
+	•	Lambda: bbpyc-audit-processor
+Metric:
+	•	AuditEventWritten (custom)
+	•	OR Count of DynamoDB writes (Dynamo metric: SuccessfulRequestLatency)
+
+⸻
+
+Widget 6 — Failure Summary (Combined)
+
+Combine failures from:
+	•	Glue
+	•	Lambda
+	•	SF Case creation
+	•	Token
+You combine these metrics using math expression or by adding them in one widget.
+
+Sources:
+	•	Glue: Failed
+	•	Lambda: Errors
+	•	Case Creator: custom SFCaseCreationFailure
+	•	Token: TokenRefreshFailure
+
+⸻
+
+Widget 7 — Daily Retry Success Rate
+
+Source:
+	•	Lambda: bbkyc-cta-case-creator
+Metric:
+	•	RetrySuccess (custom metric)
+
+⸻
+
+🟣 Functional Dashboard = ONLY these functions
+
+bbkyc-cta-event-producer → Total events
+bbkyc-cta-case-creator → Case creation + E2E Latency + Retry
+bbkyc-tlaa-token-manager → Token Success/Fail
+bbpyc-audit-processor → Audit Summary
+Glue Jobs → Only failure count (combined)
+
+⸻
+
+🔵 2. TECHNICAL DASHBOARD (Engineering View)
+
+Now the technical dashboard will ONLY contain component-level metrics, optimized & reduced.
+
+⸻
+
+Widget 1 — Combined Lambda Errors
+
+Source: All Lambdas
+	•	bbkyc-cta-event-producer
+	•	bbkyc-cta-case-creator
+	•	bbpyc-audit-processor
+	•	bbkyc-cnc-bdp-creator
+	•	bbkyc-tlaa-token-manager
+
+Metric: Errors (built-in)
+Combine all 5 Lambdas in 1 widget
+
+⸻
+
+Widget 2 — Combined Lambda Duration (Latency)
+
+Source: Same 5 Lambdas
+Metric: Duration
+
+⸻
+
+Widget 3 — Kinesis Stream Health
+
+Stream Names:
+	•	bbkyc-cta-event-stream
+	•	bbkyc-et-event-stream
+
+Metrics:
+	•	IteratorAgeMilliseconds
+	•	ReadProvisionedThroughputExceeded
+
+This widget tells if Lambda is lagging.
+
+⸻
+
+Widget 4 — Glue Job Failures
+
+Jobs:
+	•	bbkyc-et-bdp-glue-job
+	•	bbkyc-et-event-producer-job
+Metric: Failed
+
+⸻
+
+Widget 5 — Glue Job Runtime
+
+Metric: Glue → glue.job.RunTime
+
+⸻
+
+Widget 6 — SQS Queue Depth
+
+Queue: bb-pkyc-audit-event-queue
+Metrics:
+	•	ApproximateNumberOfMessagesVisible
+	•	ApproximateAgeOfOldestMessage
+
+⸻
+
+Widget 7 — DynamoDB Throttles
+
+Table: bbkyc-audit-data
+Metrics:
+	•	ReadThrottleEvents
+	•	WriteThrottleEvents
+
+⸻
+
+Widget 8 — EventBridge Invocation Failures
+
+Rule names:
+	•	bbkyc-et-bdp-scheduler
+	•	bbkyc-cta-scheduler
+
+Metric:
+	•	FailedInvocations
+
+⸻
+
+Widget 9 — Batch Job Failure + Duration
+
+Job: bbkyc-batch-processor
+Metrics:
+	•	JobFailed
+	•	JobRunningTime
+
+⸻
+
+Widget 10 — CloudWatch Alarms Summary
+
+Shows how many alarms:
+	•	In ALARM state
+	•	In OK state
+
+⸻
+
+🔥 FINAL SUMMARY (Copy/Paste)
+
+✅ Functional Dashboard
+	1.	Events Processed — bbkyc-cta-event-producer
+	2.	SF Case Success/Fail — bbkyc-cta-case-creator
+	3.	E2E Latency — bbkyc-cta-case-creator
+	4.	Token Refresh Status — bbkyc-tlaa-token-manager
+	5.	Audit Summary — bbpyc-audit-processor
+	6.	Failure Summary (combined glue+lambda+case+token)
+	7.	Retry Success — bbkyc-cta-case-creator
+
+⸻
+
+🔵 Technical Dashboard
+	1.	Lambda Errors (ALL lambdas combined)
+	2.	Lambda Duration (ALL lambdas combined)
+	3.	Kinesis IteratorAge (CTA + Event stream)
+	4.	Glue Failures
+	5.	Glue Runtime
+	6.	SQS Queue Depth (audit queue)
+	7.	DynamoDB Throttles (audit table)
+	8.	EventBridge Failure
+	9.	Batch Job Failure + Duration
+	10.	CloudWatch Alarms Summary
 Functional Dashboard (Business View)
 	1.	Total Events Processed
 	2.	Case Creation (Success/Fail)
