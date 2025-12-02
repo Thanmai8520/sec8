@@ -1,3 +1,31 @@
+Dear Programmatic Delivery Team,
+
+Please find below the details of our group for the case study submission:
+
+Group Lead: Pranav Sangave
+
+Group Members:
+
+1. Pranav Nishikant Sangave - Group Lead - G01518053
+
+2. Akash Abhay Deshmukh - B01558075
+
+3. Abhinav Pramod Mahajan - G01518271
+
+4. Hitesh Haresh Pariani - G01518270
+
+5. Arman Rajesh Nandeshwar: B01561339
+
+6. K Vaibhav Rao- G01518902°
+
+We will ensure timely submission of the deck on Intralinks by 10th December.
+
+Please let us know if any additional information is required.
+
+Regards,
+
+Pranav Sangave
+
 dashboard/
 ├── bbkyc-s3-processor/
 │   ├── lambda_handler.py
