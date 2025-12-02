@@ -1,4 +1,29 @@
 
+Functional Dashboard (Business View)
+	1.	Total Events Processed
+	2.	Case Creation (Success/Fail)
+	3.	End-to-end pipeline flow status
+	4.	Token Refresh Status
+	5.	Audit Summary
+	6.	SLA / Average Latency
+	7.	Daily Failures Summary (combined)
+	8.	Retry Success Rate
+
+⸻
+
+Technical Dashboard (Engineering View)
+	1.	Combined Lambda Errors/Throttles
+	2.	Combined Glue Job Failures
+	3.	Kinesis Stream Health (iterator age + PutRecordFailures)
+	4.	SQS Queue Depth + Oldest Message Age
+	5.	DynamoDB Throttles
+	6.	Token Refresh Lambda Failure Details
+	7.	EventBridge Invocation Failures
+	8.	Batch Job Status
+	9.	CloudWatch Alarms Summary
+	10.	Technical End-to-End latency
+
+
 Glue uses Spark under the hood, and Spark publishes its own metrics.
 CloudWatch marks them as ‘custom’ only because the namespace is non-AWS, but they are AWS-generated and cannot be moved to AWS/Glue.
 Default AWS/Glue metrics are very high level; the detailed metrics exist only in the custom namespace, so we cannot remove them.
