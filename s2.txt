@@ -1,3 +1,23 @@
+### AWS Deployment Migration
+
+-   Move application from EU West 2 (London) to EU West 1 (Ireland)
+    -   Not the repo/code, just the deployment
+    -   Lambda currently running in EU West 2
+    -   Use same deployment scripts but change region to EU West 1
+
+### CSM Tool Integration Research
+
+-   CSM tool already installed and available in EU West 1
+    -   Pre-installed in AWS with various components
+    -   May include ACM (Certificate Manager), Secret Manager, Lambda, event triggers
+-   Research requirements:
+    -   Identify all CSM tool components
+    -   Determine input requirements to fetch details from target safe
+    -   Understand CSM vault/store functionality
+    -   Document what details need to be sent to CSM tool
+-   Background work for next sprint planning
+
+
 FUNCTIONAL DASHBOARD (Business View)
 
 Widget 1 — Total Events Processed Today
