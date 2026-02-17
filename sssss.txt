@@ -1,0 +1,66 @@
+State management and debounce implementation for business website
+React State Management Implementation
+	•	Use debouncing technique for form field updates
+	◦	Implement in handler function, not useEffect
+	◦	Update store first, then update local component state
+	◦	Pattern: onChange → debounced store update → state update
+	•	Centralized state approach required
+	◦	All form questions must be added to store with default values on page load
+	◦	Each page loads 5 questions → add all to currentForm with defaults
+	◦	Store maintains all form data across components
+Form Validation Architecture
+	•	Validation runs when user clicks “Next” button
+	◦	checkValidity method extracts data from form state
+	◦	Generates config for each question (ID, value, ruleset)
+	◦	Passes config to main validation service
+	•	Centralized validation benefits
+	◦	Consolidated error handling across components
+	◦	Easier maintenance of validation rules
+	◦	Better tracking and management
+	•	Config structure includes
+	◦	Question ID and form state values
+	◦	Ruleset (max length, conditions, etc.)
+	◦	Screen-specific validation configurations
+Implementation Requirements
+	•	Create similar validation function in Tax/residency folder
+	◦	Follow business details validation pattern
+	◦	Separate file for validation logic
+	◦	Maintain centralized config approach
+	•	Remove main hook dependencies
+	◦	Priority task over other work
+	◦	PKYC work is secondary priority
+Action Items
+	•	Complete state management refactor by EOD today
+	◦	Implement debouncing pattern in handlers
+	◦	Set up centralized validation system
+	◦	Create Tax/residency validation function
+	•	EOD deadline is firm and dynamic based on completion needs
+
+Form validation implementation for tax residency
+Form Validation Implementation Overview
+	•	Moving from master hook approach to decentralized component-level state management
+	•	Three-part implementation process for tax residency form validation
+	•	Centralizing validations across application for common field types
+	•	Divyansh created form validation service with designated design pattern
+Technical Architecture Changes
+	•	Removing existing master hook that manages all states
+	•	Individual components will manage their own field states
+	•	Form slice in Redux will maintain current form data
+	◦	Contains all questions and answers for active form
+	◦	Questions added dynamically when they appear on screen
+	◦	No preemptive/proactive question addition
+	•	Business validations stored separately from form state
+	◦	Validation rules mapped when validation called
+	◦	Tightly typed parameters required
+Current Implementation Status
+	•	Tax residency master hook removal in progress
+	•	State management transition to individual components underway
+	•	Validation service structure needs proper typing
+	◦	Field objects require specific type definitions
+	◦	Three common values across all fields
+	◦	Condition parameter should be optional
+Next Steps
+	•	Call Divyansh after this meeting for detailed implementation guidance
+	•	Update validation service with proper TypeScript typing
+	•	Create type definitions for field objects and validation rules
+	•	Implement form slice structure for current form state management
