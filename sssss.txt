@@ -1,3 +1,36 @@
+Corrections
+Code Restructuring Requirements
+	•	Current tax residency validation form behaves like hook but isn’t one
+	◦	Form state management too centralized
+	◦	Need to isolate each form field’s state management
+	•	New architecture approach:
+	◦	Break page into 3 separate components (one per visible section)
+	◦	Each component manages its own form fields’ states
+	◦	Parent component controls when to show/hide sections
+	◦	Individual components handle field-specific logic
+State Management Pattern
+	•	Dual update system for field changes:
+	1	Update local component state
+	2	Dispatch to global store via debounce function
+	•	Validation process:
+	◦	Next button triggers check validity method
+	◦	Pulls all data from store for validation
+	◦	Separate from individual field state management
+	•	Reference implementation: Business details page already follows this pattern
+Team Coordination Plan
+	•	Immediate restructuring required for code sync across team
+	•	Schedule call today with Shreya and “the cash guy”
+	◦	Include Thanmai kora in call
+	◦	Restructure code together in real-time
+	◦	Ensure consistent implementation approach
+Next Steps
+	•	Schedule team call immediately
+	•	Restructure tax residency validation code following new architecture
+	•	Apply same pattern across all form components for consistency
+
+
+
+
 State management and debounce implementation for business website
 React State Management Implementation
 	•	Use debouncing technique for form field updates
