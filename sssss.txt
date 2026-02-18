@@ -1,3 +1,42 @@
+TaxResidency
+
+AddCountryButton.tsx
+
+TS
+
+country-list.ts
+
+CountryList.tsx
+
+CountryTaxEntry.tsx
+
+TS errorMessage.ts
+
+Other Countries Of TaxResidence.tsx
+
+TS tax-residency-stub.ts
+
+TaxDeclarationCheckbox.tsx
+
+TaxResidency.tsx
+
+TaxResidencyInformation.tsx
+
+TS taxResidencyValidation.ts
+
+TaxResidencyValidations.tsx
+
+United StatesResident.tsx
+
+use CountriesData.tsx
+
+useCountryValidation.tsx
+
+useTaxResidencyData.tsx
+
+YesNoRadioGroup.tsx
+
+
 Business details API integration review
 Form Management Architecture
 	•	Main business details file handles API calls, navigation, and validation
