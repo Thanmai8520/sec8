@@ -1,3 +1,38 @@
+Business details API integration review
+Form Management Architecture
+	•	Main business details file handles API calls, navigation, and validation
+	•	Components receive response data as props instead of original form state
+	•	Each component section defines own useState and useEffect
+	◦	Trading name section updates state from API response
+	◦	Business start date section follows same pattern
+	◦	Form store saves/updates data for each component
+Component Structure & State Management
+	•	Leaf components handle specific functionality
+	◦	Trading name section includes render trading component
+	◦	Function defined in same file with local useState for trading name choice
+	◦	Flag-based approach for child component management
+	•	Dynamic component addition/removal
+	◦	Screen initially loads with 4 components (trading name, business start date, trading address choice, business website)
+	◦	Components added/removed from form store based on screen appearance order
+	◦	Trading name choice appears as 5th component when user starts typing
+Validation & Error Handling System
+	•	Next button triggers validation process
+	1	Get current form state using form store function
+	2	Apply validation config defined for each component
+	3	Call validate function from validation service
+	4	Receive error codes for each component
+	5	Map error codes using error messages file
+	6	Store error details in form store
+	•	Real-time error management
+	◦	Errors removed on typing (onChange events)
+	◦	Error panel at top subscribes to form state
+	◦	Automatic error removal updates error panel
+Implementation Plan
+	•	Team member will implement the described architecture
+	•	Refactoring approach to be determined
+
+
+
 Corrections
 Code Restructuring Requirements
 	•	Current tax residency validation form behaves like hook but isn’t one
