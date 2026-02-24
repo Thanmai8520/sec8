@@ -1,3 +1,38 @@
+
+API data population issues for Sai’s project
+Code Changes Review
+	•	Removed “pick from store” functionality from business contact details screen
+	◦	Business contact structure verified and confirmed correct
+	◦	Added screen metadata (separate from main code, won’t interfere)
+	•	API call implementation updated
+	◦	Every page load triggers API call
+	◦	Form should populate based on API response data
+	◦	Fields populate if API sends values, remain empty if not in response
+Form Population Issues
+	•	Primary problem: Page not populating details after API data arrives
+	•	Two use cases identified:
+	1	Fresh form (empty fields for first-time users)
+	2	Returning user (should prepopulate with saved data)
+	•	Error validation still triggering incorrectly
+	◦	Residential address field showing errors when shouldn’t
+	◦	Related to removed “pick from store” functionality
+Debugging Progress
+	•	Pick from store removal causing validation issues
+	◦	Store unable to retrieve previously input values
+	◦	System assumes no data was sent
+	•	Data load reference flag logic needs review
+	◦	Should only execute when flag is true
+	◦	Currently may execute on first page load when flag is false
+	•	Both developers confirmed same code changes implemented
+Next Steps
+	•	Complete form prepopulation fix (small change needed)
+	◦	Pass response data to sections
+	◦	Set data in useState from sections
+	•	Thanmai kora to coordinate with Vision on state management
+	◦	Vision still creating states in parent page instead of child page
+	◦	Need to resolve this architectural issue
+
+
 TaxResidency
 
 AddCountryButton.tsx
