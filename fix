@@ -1,0 +1,51 @@
+/Users/G01432927/Desktop/bb/workspaces/digital/digital-backup/rn-bbdigitalkyb/src/screens/ReviewAndUpload/tests/Review-Details/Tax Residency.web.test.tsx
+
+9:19 error Parsing error: Expression expected
+
+/Users/G01432927/Desktop/bb/workspaces/digital/digital-backup/rn-bbdigitalkyb/src/screens/ReviewAndUpload/tests/Review-Details/Tra
+
+dingDetails.web.test.tsx
+
+9:19 error Parsing error: Expression expected
+
+/Users/G01432927/Desktop/bb/workspaces/digital/digital-backup/rn-bbdigitalkyb/src/screens/ReviewAndUpload/tests/reviewAndUpload.we
+
+b.test.tsx
+
+38:17 error Parsing error: Expression expected
+
+/Users/G01432927/Desktop/bb/workspaces/digital/digital-backup/rn-bbdigitalkyb/src/screens/TaxResidency/TaxResidency.tsx 156:6 error React Hook useCallback has a missing dependency: 'screenMetadata.nextPage'. Either include it or remove the depend ency array react-hooks/exhaustive-deps
+
+/Users/G01432927/Desktop/bb/workspaces/digital/digital-backup/rn-bbdigitalkyb/src/screens/TaxResidency/components/us-resident/Unit
+
+edStatesResident.tsx
+
+32:10 error 'errorType' is assigned a value but never used. Allowed unused elements of array destructuring patterns must match @typescript-eslint/no-unused-vars
+
+Ju
+
+error The 'usSsnStoreError' logical expression could make the dependencies of useEffect Hook (at line 125) change on eve ry render. To fix this, wrap the initialization of 'usSsnStoreError' in its own useMemo() Hook react-hooks/exhaustive-deps
+
+40:9
+
+/Users/G01432927/Desktop/bb/workspaces/digital/digital-backup/rn-bbdigitalkyb/src/screens/TaxResidency/sections/OtherCountriesSect
+
+ion.tsx
+
+49:9 error The 'otherCountriesErrorList' logical expression could make the dependencies of useEffect Hook (at line 181) change on every render. To fix this, wrap the initialization of 'other CountriesErrorList' in its own useMemo() Hook react-hooks/exhaust
+
+ive-deps
+
+/Users/G01432927/Desktop/bb/workspaces/digital/digital-backup/rn-bbdigitalkyb/src/screens/TaxResidency/sections/USResidentSection.
+
+tsx
+
+25:10 error 'usSsnError' is assigned a value but never used. Allowed unused elements of array destructuring patterns must matc /u @typescript-eslint/no-unused-vars
+
+h/^ / Users/G01432927/Desktop/bb/workspaces/digital/digital-backup/rn-bbdigitalkyb/src/screens/TaxResidency/validation/taxResidencyVali
+
+dation.ts 5 :
+
+3 error 'options' is defined but never used. Allowed unused args must match /^/u @typescript-eslint/no-unused-vars
+
+* 87 problems (85 errors, 2 warnings)
