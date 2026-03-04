@@ -1,3 +1,43 @@
+AWS IM role configuration for token manager
+AWS Lambda CSM Integration Setup
+	•	Configure IAM roles for token manager Lambda
+	◦	Copy ARN from Lambda configuration → permissions section
+	◦	Add role to CSM iris (three dots → Edit → Add role)
+	◦	Enables CSM Lambda to fetch directly from CSM
+	•	Create two new Python files:
+	◦	request_signer.py - handles signed AWS requests
+	◦	csm_service.py - manages CSM token operations
+Code Implementation Changes
+	•	Import request signer module into main code
+	•	Install required dependencies:
+	◦	boto core credentials
+	◦	typing module
+	◦	datetime, bytes IO
+	•	Request signer sends signed IAM request to CSM
+	◦	Returns vault token in exchange
+	◦	CSM service extracts token from response
+Debugging Strategy
+	•	Add logging to track token generation:
+	◦	Change debug logs to info level (line 80 in try section)
+	◦	Print vault token when successfully fetched
+	◦	Print complete AD response (line 117)
+	•	Goal: Verify CSM token generation and retrieve system account password
+	•	Test token → password flow end-to-end
+Lambda Handler Integration
+	•	Call CSM classes method from Lambda handler
+	•	Trigger sequence: Lambda start → CSM token fetch → print AD response
+	•	Focus on password retrieval from CSM vault token
+Next Steps
+	•	Build code locally and deploy to AWS
+	•	Trigger Lambda and check logs for:
+	◦	Token generation success/failure
+	◦	Any deployment errors
+	•	Follow-up call scheduled after 3:30 PM
+	•	Report any errors encountered during deployment
+
+
+
+
 /Users/G01432927/Desktop/bb/workspaces/digital/digital-backup/rn-bbdigitalkyb/src/screens/ReviewAndUpload/tests/Review-Details/Tax Residency.web.test.tsx
 
 9:19 error Parsing error: Expression expected
