@@ -1,3 +1,43 @@
+Token management strategy for CSM secrets
+Authentication System Architecture
+	•	CSM Lambda fetches system account password from vault automatically
+	◦	No need to manually save username/password in secrets
+	◦	Lambda handles machine identity verification through AWS STS
+	◦	Returns password directly in response data structure
+	•	JWT token workflow explained
+	◦	System account username already configured
+	◦	Password retrieved from CSM vault via mapped AD group
+	◦	JWT.io can decrypt tokens to show issuer/client information
+	•	Vault authentication sequence
+	1	Fetch machine identity from AWS environment
+	2	Login to vault using STS credentials
+	3	Receive vault token for secret access
+	4	Use token to read any secrets (AD secrets, key value pairs, etc.)
+Code Implementation Changes
+	•	Remove CSM service dependencies from current code
+	◦	No longer need separate CSM service calls
+	◦	CSM Lambda handles all vault authentication internally
+	•	Extract credentials from Lambda response
+	◦	Parse username and password from response.data structure
+	◦	Use these credentials for TIA system authentication calls
+	◦	Don’t store credentials in secrets for security
+	•	VPC configuration needed for Lambda
+	◦	Requires specific subnets and security groups
+	◦	Manual configuration needed initially, then update CFT template
+	◦	Need to confirm correct subnets/VPCs with Spandan
+Next Steps
+	•	Thanmai: Modify code to extract username/password from CSM Lambda response
+	•	Thanmai: Remove CSM service dependencies and related error handling
+	•	Thanmai: Test authentication flow with extracted credentials
+	•	Follow up on VPC/subnet configuration requirements
+	•	Thanmai: Review technical documentation shared via email
+	•	Thanmai: Doctor appointment at 4 PM (nausea issues)
+
+
+
+
+
+
 AWS IM role configuration for token manager
 AWS Lambda CSM Integration Setup
 	•	Configure IAM roles for token manager Lambda
