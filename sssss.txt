@@ -1,4 +1,36 @@
 
+UI/UX changes review for Boost app
+UI/UX Development Review - Boost App
+	•	Screen sharing session to review current implementation
+	•	Sai demonstrating radio button functionality for address selection
+	•	Address fetching working but UI styling needs adjustments
+Button and Layout Requirements
+	•	Find address button: Change from 50% to 100% width
+	•	Key people in business section: Expand to 100% width
+	•	Add another person button: Style as panel button (matching find address)
+	•	Remove button: Change color to red/danger styling
+	•	Radio buttons (simple/complex): Add border following existing Boost UI pattern
+Address Functionality Issues
+	•	Current behavior incorrect for address selection
+	•	Should display address immediately when radio button selected (residential/trading)
+	◦	Same behavior as existing business contact details
+	◦	API response will provide address data once properly implemented
+	•	Address selection component needs to be added/fixed
+Documentation and Next Steps
+	•	Divyansh’s design document contains only screenshots, no detailed descriptions
+	•	Thanmai to follow up with Divyansh for official documentation
+	•	Sai to implement:
+	◦	Width adjustments for buttons and sections
+	◦	Border styling for radio buttons
+	◦	Address display functionality
+	◦	Panel button styling for “add person”
+	◦	Red styling for remove buttons
+
+
+
+
+
+
 API data population issues for Sai’s project
 Code Changes Review
 	•	Removed “pick from store” functionality from business contact details screen
