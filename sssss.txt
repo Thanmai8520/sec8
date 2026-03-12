@@ -1,3 +1,40 @@
+Common library publishing plan
+Nexus Repository Publishing Setup
+	•	Pipeline configuration for publishing
+	◦	Only publish when all verification and compliance checks pass
+	◦	Manual publishing should trigger publish state in pipeline
+	◦	Set up conditional triggers to prevent builds without proper conditions
+	•	Common libraries publishing process
+	◦	Need separate workspace for centralized common libraries
+	◦	Create dedicated Nexus space for common library publishing
+	◦	Two main components: logging library and other common utilities
+Workspace and Access Management
+	•	Nexus space creation
+	◦	Space already created for common libraries
+	◦	Need to verify access permissions for publishing
+	◦	Browser access different from pipeline access
+	◦	Check existing common KYC space availability
+	•	Access troubleshooting
+	◦	Pipeline link should provide direct access to Nexus
+	◦	If browser access fails, use pipeline-generated links
+	◦	Verify download/install processes working correctly
+Version Management Strategy
+	•	Multiple version handling
+	◦	Define specific versions in configuration
+	◦	Support for multiple versions simultaneously
+	◦	Version specification determines which version gets pulled
+	•	Library integration process
+	◦	Each folder should become separate artifact with different versions
+	◦	Need to understand existing implementation before making changes
+	◦	Review current publishing state and folder structure
+Next Steps
+	•	Study existing code structure and publishing setup
+	•	Get help from experienced team member for integration
+	•	Schedule Friday discussion for detailed walkthrough
+	•	Resolve access issues and verify publishing pipeline functionality
+
+
+
 
 UI/UX changes review for Boost app
 UI/UX Development Review - Boost App
