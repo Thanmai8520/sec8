@@ -1,0 +1,24 @@
+Save data function update
+Development Implementation Requirements
+	•	Create save data function for screen with step name and rating parameters
+	•	Implement handler function similar to existing exported reference
+	•	Use correspondence address or similar component as reference template
+	•	Navigation flow: marketing preference → next screen handling
+Redux Integration Tasks
+	•	Dispatch current metadata first, then fetch new metadata
+	•	Create new metadata attribute with:
+	◦	Next page identifier
+	◦	Next section ID (section 2 for current implementation)
+	•	Call load metadata reducer with new metadata dispatch
+	•	Handle next function processing at end of save operations
+Code Structure Decisions
+	•	Business details folder components need separate hooks
+	•	Remove existing use business hook (only for postcode search)
+	•	Create individual hooks for each component rather than shared approach
+	•	Separate file organization preferred over single hook approach
+	•	Reference existing correspondence address implementation
+Technical Cleanup
+	•	Remove handle next from current implementation
+	•	Simplify to handle function only
+	•	Reduce code complexity from current 400+ lines
+	•	Focus on core functionality without over-engineering
