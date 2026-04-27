@@ -1,3 +1,155 @@
+Good—you shared the screenshot, and now the situation is clearer.
+
+👉 What Duo is telling you is a different root cause than what we were fixing earlier.
+
+And honestly?
+This one is more fundamental than the error-focus issue.
+
+⸻
+
+💥 Real Root Cause (based on your UI behavior)
+
+This line from the screenshot is the key:
+
+“Conditional rendering unmounts/remounts content”
+
+🔴 You are doing this:
+
+{formData.accuratelyReflects === 'no' && (
+  <PlatformView> ... </PlatformView>
+)}
+
+and also:
+
+{!showTaxDeclaration ? (...) : (...) }
+
+⸻
+
+🚨 What this causes
+
+When you click a radio:
+
+1. formData.accuratelyReflects changes
+2. React removes one block and mounts another
+3. Entire layout height changes
+4. ScrollView thinks it’s new content
+5. 👉 Scroll resets to top
+
+⸻
+
+🎯 This is NOT a bug — it’s how React Native works
+
+ScrollView resets when:
+
+* children structure changes
+* layout recalculates significantly
+
+⸻
+
+✅ Proper Fix (this is the real solution)
+
+🔥 Replace conditional rendering with visibility control
+
+❌ DON’T do this:
+
+{formData.accuratelyReflects === 'no' && <Component />}
+
+⸻
+
+✅ DO THIS instead:
+
+<PlatformView style={{ display: formData.accuratelyReflects === 'no' ? 'flex' : 'none' }}>
+  <Component />
+</PlatformView>
+
+⸻
+
+Apply this to ALL conditionals:
+
+1. Tax declaration switch
+
+<PlatformView style={{ display: showTaxDeclaration ? 'none' : 'flex' }}>
+  {/* classification content */}
+</PlatformView>
+<PlatformView style={{ display: showTaxDeclaration ? 'flex' : 'none' }}>
+  {/* tax declaration content */}
+</PlatformView>
+
+⸻
+
+2. Alternative classification section
+
+<PlatformView
+  style={{
+    display: formData.accuratelyReflects === 'no' ? 'flex' : 'none'
+  }}
+>
+
+⸻
+
+⚠️ Why this works
+
+* Components stay mounted
+* Layout structure stays stable
+* ScrollView doesn’t reset
+* Only visibility changes
+
+⸻
+
+🧪 Confirm this fix
+
+After change:
+
+1. Open modal
+2. Scroll down
+3. Click radio
+
+Expected:
+
+* ✅ No jump
+* ✅ Smooth UI
+
+⸻
+
+🔥 Important: Your earlier fix is STILL needed
+
+Even after this:
+
+* Your useEffect scroll logic can still cause jumps
+* So keep the guard fixes we did earlier
+
+⸻
+
+🧠 Final breakdown (no confusion)
+
+Problem	Cause	Fix
+Scroll jumps on click	❌ Conditional rendering	✅ Use display: none
+Scroll jumps randomly	❌ useEffect firing	✅ Add guards
+Scroll jumps to error	✅ Expected	Keep it
+
+⸻
+
+🏁 Final answer
+
+👉 Duo is right this time
+👉 Your issue is NOT just error focus
+👉 It’s mainly component unmount/remount
+
+⸻
+
+If you want, I can:
+
+* rewrite your JSX cleanly (no jumps at all)
+* or show a minimal diff so you don’t touch too much code
+
+Just tell me 👍
+
+
+
+
+
+
+
 Alright—thanks for pasting the full thing. Now we can stop guessing.
 
 👉 Yes, your scroll logic is STILL the reason it jumps to top.
