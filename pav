@@ -1,3 +1,161 @@
+Alright—thanks for pasting the full thing. Now we can stop guessing.
+
+👉 Yes, your scroll logic is STILL the reason it jumps to top.
+And I can see exactly why it’s not fixed yet.
+
+⸻
+
+🔴 The actual bug still in your code
+
+This line is still broken:
+
+if (lastErrorStateRef.current errorStateKey)
+
+That’s not a comparison. It should be:
+
+if (lastErrorStateRef.current === errorStateKey)
+
+Right now:
+
+* This condition never works properly
+* So focusFirstError() runs every render
+* → scroll jumps on every radio click
+
+⸻
+
+🔴 Second issue (very important)
+
+Your dependency:
+
+}, [errors, focusFirstError, resetErrorFocus]);
+
+👉 If errors is recreated every render (very common), then:
+
+* useEffect runs on every click
+* even if values didn’t change
+
+⸻
+
+🔴 Third issue (hidden but critical)
+
+This part is also wrong:
+
+const errorStateKey = '${errors.accuratelyReflects || ''}-${ errors.alternativeClassification || {-$)errors.taxDeclaration || 'יני;
+
+That string is malformed.
+
+⸻
+
+✅ FIX (copy this exactly)
+
+Replace your entire useEffect with this:
+
+const prevErrorsRef = useRef({
+  accuratelyReflects: '',
+  alternativeClassification: '',
+  taxDeclaration: '',
+});
+useEffect(() => {
+  if (scrollTimeoutRef.current) {
+    clearTimeout(scrollTimeoutRef.current);
+    scrollTimeoutRef.current = null;
+  }
+  const hasErrors = Object.values(errors).some(Boolean);
+  if (!hasErrors) {
+    lastErrorStateRef.current = '';
+    resetErrorFocus();
+    return;
+  }
+  const prev = prevErrorsRef.current;
+  const isSame =
+    prev.accuratelyReflects === errors.accuratelyReflects &&
+    prev.alternativeClassification === errors.alternativeClassification &&
+    prev.taxDeclaration === errors.taxDeclaration;
+  if (isSame) return; // ✅ THIS stops scroll on radio click
+  prevErrorsRef.current = { ...errors };
+  const currentErrorFields = {
+    [ERROR_FIELDS.ACCURATELY_REFLECTS]: errors.accuratelyReflects
+      ? { ref: accuratelyReflectsRef, message: errors.accuratelyReflects }
+      : undefined,
+    [ERROR_FIELDS.ALTERNATIVE_CLASSIFICATION]: errors.alternativeClassification
+      ? { ref: alternativeClassificationRef, message: errors.alternativeClassification }
+      : undefined,
+    [ERROR_FIELDS.TAX_DECLARATION]: errors.taxDeclaration
+      ? { ref: taxDeclarationRef, message: errors.taxDeclaration }
+      : undefined,
+  };
+  scrollTimeoutRef.current = setTimeout(() => {
+    focusFirstError(currentErrorFields, ERROR_ORDER);
+  }, 300);
+}, [errors]);
+
+⸻
+
+⚠️ Also FIX this
+
+You have:
+
+const LastErrorStateRef useRef string(11)
+
+❌ wrong
+
+const lastErrorStateRef = useRef('');
+
+⸻
+
+⚠️ One more UI issue (can still cause jump)
+
+This line:
+
+style={{ flex: 1, maxHeight: 500 }}
+
+👉 Try removing maxHeight temporarily:
+
+style={{ flex: 1 }}
+
+⸻
+
+🧪 Final sanity test
+
+After fix:
+
+1. Open modal
+2. Click radio button
+
+👉 Expected:
+
+* ✅ No jump
+* ✅ No scroll
+
+3. Trigger error (submit empty)
+
+👉 Expected:
+
+* ✅ Scroll to first error
+
+⸻
+
+🎯 Brutal truth
+
+Your logic idea is fine.
+But:
+
+❌ You were comparing state incorrectly
+❌ Effect was firing every render
+❌ So scroll kept triggering
+
+⸻
+
+If this STILL scrolls after this fix, I’ll go one level deeper (it’ll be inside useErrorFocus itself).
+
+
+
+
+
+
+
+
+
 What you’re seeing isn’t random—your modal is jumping to the top because your error-handling + scroll logic is firing on every state change, not just when a real “new error” appears.
 
 Right now, clicking a radio button updates formData → triggers re-render → your useEffect runs → it thinks there’s a “new error state” → calls focusFirstError() → scrolls to top.
