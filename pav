@@ -1,3 +1,235 @@
+You’ve actually got two separate problems:
+
+1. Broken syntax / refs → scroll-to-error not working
+2. Scroll jumping to top when clicking radio → classic ScrollView + re-render issue
+
+I’ll fix both cleanly without overcomplicating.
+
+⸻
+
+✅ 1. Clean “core” version (syntax + scroll-to-error FIXED)
+
+Use this as your stable base:
+
+const { LABELS, YES_NO_OPTIONS } = ADDITIONAL_TAX_DETAILS;
+const ERROR_FIELDS = {
+  ACCURATELY_REFLECTS: 'accuratelyReflects',
+  ALTERNATIVE_CLASSIFICATION: 'alternativeClassification',
+  TAX_DECLARATION: 'taxDeclaration',
+} as const;
+const ERROR_ORDER = [
+  ERROR_FIELDS.ACCURATELY_REFLECTS,
+  ERROR_FIELDS.TAX_DECLARATION,
+  ERROR_FIELDS.ALTERNATIVE_CLASSIFICATION,
+] as const;
+export const ClassificationOrTaxDeclarationModal: React.FC<
+  ClassificationOrTaxDeclarationModalProps
+> = ({
+  showTaxDeclaration,
+  classification,
+  formData,
+  errors,
+  alternativeClassificationOptions,
+  onAccuratelyReflectsChange,
+  onAlternativeClassificationChange,
+  onTaxDeclarationChange,
+  getContentByKey,
+}) => {
+  const scrollViewRef = useRef<any>(null);
+  const accuratelyReflectsRef = useRef<any>(null);
+  const alternativeClassificationRef = useRef<any>(null);
+  const taxDeclarationRef = useRef<any>(null);
+  const lastErrorStateRef = useRef('');
+  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const { focusFirstError, createLayoutHandler, resetErrorFocus } =
+    useErrorFocus({
+      scrollViewRef,
+      scrollOffset: 50,
+      isModal: true,
+    });
+  useEffect(() => {
+    if (scrollTimeoutRef.current) {
+      clearTimeout(scrollTimeoutRef.current);
+      scrollTimeoutRef.current = null;
+    }
+    const hasErrors = Object.values(errors).some(Boolean);
+    if (!hasErrors) {
+      lastErrorStateRef.current = '';
+      resetErrorFocus();
+      return;
+    }
+    const errorStateKey = `${errors.accuratelyReflects}-${errors.alternativeClassification}-${errors.taxDeclaration}`;
+    if (lastErrorStateRef.current === errorStateKey) return;
+    lastErrorStateRef.current = errorStateKey;
+    const currentErrorFields = {
+      [ERROR_FIELDS.ACCURATELY_REFLECTS]: errors.accuratelyReflects
+        ? { ref: accuratelyReflectsRef, message: errors.accuratelyReflects }
+        : undefined,
+      [ERROR_FIELDS.ALTERNATIVE_CLASSIFICATION]:
+        errors.alternativeClassification
+          ? {
+              ref: alternativeClassificationRef,
+              message: errors.alternativeClassification,
+            }
+          : undefined,
+      [ERROR_FIELDS.TAX_DECLARATION]: errors.taxDeclaration
+        ? { ref: taxDeclarationRef, message: errors.taxDeclaration }
+        : undefined,
+    };
+    scrollTimeoutRef.current = setTimeout(() => {
+      focusFirstError(currentErrorFields, ERROR_ORDER);
+      scrollTimeoutRef.current = null;
+    }, 300);
+    return () => {
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+        scrollTimeoutRef.current = null;
+      }
+    };
+  }, [
+    errors.accuratelyReflects,
+    errors.alternativeClassification,
+    errors.taxDeclaration,
+  ]);
+
+⸻
+
+✅ 2. Fix for scroll jumping to top on radio click ⚠️
+
+This is your real annoying bug.
+
+🔴 Why it happens:
+
+When you click radio:
+
+* state updates → component re-renders
+* ScrollView resets position (especially inside modal)
+* OR layout recalculates → scroll jumps to top
+
+⸻
+
+✅ FIX 1 (most important)
+
+❌ REMOVE this:
+
+style={{ flex: 1, maxHeight: 500 }}
+
+✅ USE:
+
+style={{ flex: 1 }}
+
+👉 maxHeight inside modal = scroll reset trigger
+
+⸻
+
+✅ FIX 2 — prevent unnecessary re-renders
+
+Wrap handlers:
+
+const handleAccuratelyReflectsChange = useCallback(
+  (val) => {
+    onAccuratelyReflectsChange(val);
+  },
+  [onAccuratelyReflectsChange]
+);
+
+Use it:
+
+onChange={handleAccuratelyReflectsChange}
+
+⸻
+
+✅ FIX 3 — keep ScrollView stable
+
+Add this:
+
+keyboardShouldPersistTaps="handled"
+removeClippedSubviews={false}
+
+Full:
+
+<PlatformScrollView
+  ref={scrollViewRef}
+  keyboardShouldPersistTaps="handled"
+  nestedScrollEnabled
+  removeClippedSubviews={false}
+  showsVerticalScrollIndicator
+  style={{ flex: 1 }}
+  contentContainerStyle={{ flexGrow: 1, paddingBottom: 20 }}
+>
+
+⸻
+
+✅ FIX 4 — DON’T recreate layout handlers every render
+
+This line is dangerous if unstable:
+
+onLayout={createLayoutHandler(...)}
+
+👉 If your hook doesn’t memoize it → scroll jumps
+
+Safe version:
+
+const accuracyLayout = useMemo(
+  () => createLayoutHandler(ERROR_FIELDS.ACCURATELY_REFLECTS),
+  [createLayoutHandler]
+);
+
+Use:
+
+onLayout={accuracyLayout}
+
+⸻
+
+✅ FIX 5 — optional (strong fix if still jumping)
+
+Preserve scroll manually:
+
+const scrollY = useRef(0);
+<PlatformScrollView
+  onScroll={(e) => {
+    scrollY.current = e.nativeEvent.contentOffset.y;
+  }}
+  scrollEventThrottle={16}
+>
+
+Then after state update:
+
+scrollViewRef.current?.scrollTo({
+  y: scrollY.current,
+  animated: false,
+});
+
+⸻
+
+🧠 What actually caused your issue
+
+Not one thing — combination of:
+
+* broken JSX (refs not binding)
+* maxHeight restriction
+* re-render on radio change
+* layout recalculation
+* unstable handlers
+
+⸻
+
+✅ If you want next step
+
+If this still jumps:
+
+👉 send me:
+
+* your useErrorFocus hook
+* modal wrapper (very important)
+
+I’ll fix it to production-level (no jump, smooth scroll, proper focus).
+
+
+
+
+
+
 Yeah—this second screenshot actually nails it. And it confirms something important:
 
 👉 You don’t have one issue. You have two happening together.
