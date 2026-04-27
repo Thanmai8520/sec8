@@ -1,0 +1,149 @@
+What you’re seeing isn’t random—your modal is jumping to the top because your error-handling + scroll logic is firing on every state change, not just when a real “new error” appears.
+
+Right now, clicking a radio button updates formData → triggers re-render → your useEffect runs → it thinks there’s a “new error state” → calls focusFirstError() → scrolls to top.
+
+⸻
+
+🔴 Root Problems in Your Code
+
+1. Broken errorStateKey
+
+This line is malformed:
+
+const errorStatekey = $(errors.accuratelyReflects)|${errors.alternativeClassific
+
+So your comparison:
+
+if (lastErrorStateRef.current === errorStateKey) return;
+
+never works correctly, meaning scroll runs every time.
+
+⸻
+
+2. You’re not updating lastErrorStateRef
+
+Even if the key worked, you forgot:
+
+lastErrorStateRef.current = errorStateKey;
+
+So it keeps thinking every render is “new”.
+
+⸻
+
+3. Effect runs on every change (even valid input)
+
+Your dependency:
+
+[errors.accuratelyReflects, errors.alternativeClassification, errors.taxDeclaration]
+
+Even when user FIXES input, it still triggers scroll.
+
+⸻
+
+4. Inline onScroll duplication (bug)
+
+You have two onScroll handlers:
+
+onScroll={handleScroll}
+...
+onScroll={(e => console.log(...))}
+
+This can cause weird scroll resets.
+
+⸻
+
+✅ Fix (Clean + Stable)
+
+✅ Step 1: Fix error key properly
+
+const errorStateKey = `${errors.accuratelyReflects}-${errors.alternativeClassification}-${errors.taxDeclaration}`;
+
+⸻
+
+✅ Step 2: Update last error state
+
+Add this after check:
+
+if (lastErrorStateRef.current === errorStateKey) return;
+lastErrorStateRef.current = errorStateKey;
+
+⸻
+
+✅ Step 3: Only scroll when errors EXIST
+
+Refactor effect:
+
+useEffect(() => {
+  if (scrollTimeoutRef.current) {
+    clearTimeout(scrollTimeoutRef.current);
+    scrollTimeoutRef.current = null;
+  }
+  const hasErrors = Object.values(errors).some(Boolean);
+  if (!hasErrors) {
+    lastErrorStateRef.current = '';
+    resetErrorFocus();
+    return;
+  }
+  const errorStateKey = `${errors.accuratelyReflects}-${errors.alternativeClassification}-${errors.taxDeclaration}`;
+  if (lastErrorStateRef.current === errorStateKey) return;
+  lastErrorStateRef.current = errorStateKey;
+  const currentErrorFields = {
+    [ERROR_FIELDS.ACCURATELY_REFLECTS]: errors.accuratelyReflects
+      ? { ref: accuratelyReflectsRef, message: errors.accuratelyReflects }
+      : undefined,
+    [ERROR_FIELDS.ALTERNATIVE_CLASSIFICATION]: errors.alternativeClassification
+      ? { ref: alternativeClassificationRef, message: errors.alternativeClassification }
+      : undefined,
+    [ERROR_FIELDS.TAX_DECLARATION]: errors.taxDeclaration
+      ? { ref: taxDeclarationRef, message: errors.taxDeclaration }
+      : undefined,
+  };
+  scrollTimeoutRef.current = setTimeout(() => {
+    focusFirstError(currentErrorFields, ERROR_ORDER);
+  }, 300);
+}, [errors]);
+
+⸻
+
+✅ Step 4: REMOVE duplicate onScroll
+
+Keep only this:
+
+onScroll={handleScroll}
+scrollEventThrottle={16}
+
+❌ Remove:
+
+onScroll={(e => console.log(...))}
+
+⸻
+
+✅ Step 5: Prevent scroll on simple selection
+
+If still happening, guard scroll:
+
+if (!hasErrors || Object.values(errors).every(e => !e)) return;
+
+⸻
+
+💡 Why this happens (simple explanation)
+
+Think of your modal like:
+
+* User clicks radio → state updates
+* Your code says: “Oh something changed → scroll to error”
+* But it doesn’t check if error actually changed
+
+So it keeps snapping to top.
+
+⸻
+
+✅ Final Result After Fix
+
+* Clicking radio ✅ → no scroll jump
+* Only invalid submit ❌ → scroll to first error
+* Fixing error ✅ → no annoying scroll
+
+⸻
+
+If you want, I can ￼ simplify this whole error-scroll hook (useErrorFocus)—right now it’s doing more harm than good.
