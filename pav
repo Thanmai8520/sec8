@@ -1,3 +1,169 @@
+Yeah—this second screenshot actually nails it. And it confirms something important:
+
+👉 You don’t have one issue. You have two happening together.
+
+Let me simplify what’s really going on (no noise):
+
+⸻
+
+💥 Final Root Cause (combined)
+
+1. errors object is recreated every render
+
+From your screenshot:
+
+“creates new errors object (even if values unchanged)”
+
+👉 This triggers your useEffect every time
+👉 That can cause scroll (if focus logic runs)
+
+⸻
+
+2. UI structure changes on radio click
+
+This is the bigger one:
+
+“Alternative section becomes visible → layout recalculates → ScrollView resets”
+
+👉 This is independent of your error logic
+
+Even if you remove focusFirstError,
+ScrollView can STILL jump because content height changes.
+
+⸻
+
+⚠️ Important correction (this is where Duo is slightly misleading)
+
+Duo says:
+
+use display: none
+
+👉 That helps in web, but in React Native, display: none:
+
+* still removes layout space
+* still triggers layout recalculation
+
+➡️ So it won’t fully fix scroll reset
+
+⸻
+
+✅ Actual fix that works in React Native
+
+🔥 You must KEEP layout stable
+
+Instead of:
+
+{formData.accuratelyReflects === 'no' && <AlternativeSection />}
+
+⸻
+
+✅ Do this:
+
+<View style={{ height: formData.accuratelyReflects === 'no' ? 'auto' : 0, overflow: 'hidden' }}>
+  <AlternativeSection />
+</View>
+
+⸻
+
+Or better (more stable):
+
+<View style={{ opacity: formData.accuratelyReflects === 'no' ? 1 : 0 }}>
+  <AlternativeSection />
+</View>
+
+👉 This keeps:
+
+* component mounted ✅
+* layout consistent ✅
+* scroll position stable ✅
+
+⸻
+
+💥 Also fix THIS (very important)
+
+From screenshot:
+
+dependency changed (object reference, not value)
+
+👉 So this is still needed:
+
+const prevErrorsRef = useRef(errors);
+useEffect(() => {
+  const prev = prevErrorsRef.current;
+  const isSame =
+    prev.accuratelyReflects === errors.accuratelyReflects &&
+    prev.alternativeClassification === errors.alternativeClassification &&
+    prev.taxDeclaration === errors.taxDeclaration;
+  if (isSame) return; // 🚫 STOP unnecessary scroll
+  prevErrorsRef.current = errors;
+  // your scroll logic here
+}, [errors]);
+
+⸻
+
+🧪 Why your scroll STILL happens (clear picture)
+
+When you click radio:
+
+1. state changes ✅
+2. new errors object created ✅
+3. useEffect fires ✅
+4. alternative section appears ✅
+5. layout height changes ✅
+6. ScrollView resets ❌
+
+👉 Even if step 3 didn’t exist, step 5 alone can cause jump.
+
+⸻
+
+🎯 Final answer (no confusion)
+
+👉 Is your file causing it?
+✔️ Partly yes
+
+👉 Is error focus the main issue?
+❌ No
+
+👉 Is layout change the main issue?
+✔️ YES
+
+⸻
+
+🏁 What you should do (priority order)
+
+✅ 1. Stabilize layout (MOST IMPORTANT)
+
+* Don’t mount/unmount sections
+* Keep them rendered
+
+⸻
+
+✅ 2. Fix error effect (SECONDARY)
+
+* Prevent unnecessary scrolling
+
+⸻
+
+✅ 3. Optional
+
+* Remove maxHeight: 500
+* Check PlatformScrollView behavior
+
+⸻
+
+👍 If you want clean fix
+
+I can rewrite just this part:
+
+* no scroll jump
+* no re-render issues
+* no hacky styles
+
+Just say “give clean version” and I’ll simplify your component properly.
+
+
+
+
 Good—you shared the screenshot, and now the situation is clearer.
 
 👉 What Duo is telling you is a different root cause than what we were fixing earlier.
